@@ -14,17 +14,17 @@ jobs:
       - uses: actions/checkout@v2
       - name: Installing dependencies
         run: yarn install
-    deploy:
-      name: Deploying
-      runs-on: ubuntu-20.04
-      steps:
-        - name: SSH & Deploy
-          uses: appleboy/ssh-action@master
-          with:
-            host: ${{ secrets.SSH_AWS_SERVER_IP}}
-            username: ${{ secrets.SSH_SERVER_USER}}
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            passphrase: ${{ secrets.SSH_PASSPHRASE}}
-            script: |
-              cd ~/.scripts
-              ./docker-deploy.sh
+  deploy:
+    name: Deploying
+    runs-on: ubuntu-20.04
+    steps:
+      - name: SSH & Deploy
+         uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_AWS_SERVER_IP}}
+          username: ${{ secrets.SSH_SERVER_USER}}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE}}
+          script: |
+            cd ~/.scripts
+            ./docker-deploy.sh
