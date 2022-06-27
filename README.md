@@ -6,3 +6,5 @@
 - [ ] Write smart contract
 - [ ] Launch beta for testing
 - [ ] Deploy app in mainnet
+
+I am change
