@@ -16,7 +16,7 @@ const AuthorProfile = () => {
     const currentUser = Moralis.User.current();
 
     if (currentUser) {
-      console.log(currentUser);
+      console.log(currentUser.attributes);
       setAuthorData([
         {
           id: currentUser.id,
@@ -37,9 +37,7 @@ const AuthorProfile = () => {
           <div className="col-12 col-md-8 col-lg-7">
             {/* Intro */}
             <div className="intro text-center">
-              <span>Heading</span>
-              <h3 className="mt-3 mb-0">Heading</h3>
-              <p>Content</p>
+              <h3 className="mt-3 mb-0">User Profile</h3>
             </div>
           </div>
         </div>
@@ -70,7 +68,7 @@ const AuthorProfile = () => {
                       <a href="/author">
                         <h5>{item.author}</h5>
                       </a>
-                      <a>hello</a>
+                      <a>Edit</a>
                     </div>
                   </div>
                 </div>
