@@ -13,3 +13,4 @@ make changes
 change again
 what?
 changed server IP
+restart docker
