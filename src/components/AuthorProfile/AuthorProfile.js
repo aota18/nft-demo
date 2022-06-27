@@ -1,65 +1,86 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useMoralis } from "react-moralis";
 
-const BASE_URL = "https://my-json-server.typicode.com/themeland/netstorm-json-1/author";
+const BASE_URL =
+  "https://my-json-server.typicode.com/themeland/netstorm-json-1/authors";
 
-class AuthorProfile extends Component {
-    state = {
-        data: {},
-        socialData: []
+const AuthorProfile = () => {
+  const { Moralis, isWeb3Enabled } = useMoralis();
+
+  const [data, setData] = useState({});
+  const [authorData, setAuthorData] = useState([]);
+
+  useEffect(() => {
+    if (!isWeb3Enabled) return;
+    const currentUser = Moralis.User.current();
+
+    if (currentUser) {
+      console.log(currentUser);
+      setAuthorData([
+        {
+          id: currentUser.id,
+          img: "/img/author_1.jpg",
+          avatar: "/img/avatar_1.jpg",
+          author: currentUser.id,
+        },
+      ]);
+    } else {
+      console.log("user doesnt exist");
     }
-    componentDidMount(){
-        axios.get(`${BASE_URL}`)
-            .then(res => {
-                this.setState({
-                    data: res.data,
-                    socialData: res.data.socialData
-                })
-                // console.log(this.state.data)
-            })
-        .catch(err => console.log(err))
-    }
-    render() {
-        return (
-            <div className="card no-hover text-center">
-                <div className="image-over">
-                    <img className="card-img-top" src={this.state.data.img} alt="" />
-                    {/* Author */}
-                    <div className="author">
-                        <div className="author-thumb avatar-lg">
-                            <img className="rounded-circle" src={this.state.data.authorImg} alt="" />
-                        </div>
-                    </div>
-                </div>
-                {/* Card Caption */}
-                <div className="card-caption col-12 p-0">
+  }, [isWeb3Enabled]);
+
+  return (
+    <section className="popular-collections-area">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-8 col-lg-7">
+            {/* Intro */}
+            <div className="intro text-center">
+              <span>Heading</span>
+              <h3 className="mt-3 mb-0">Heading</h3>
+              <p>Content</p>
+            </div>
+          </div>
+        </div>
+        <div className="row items">
+          {authorData?.map((item, idx) => {
+            return (
+              <div key={`ad_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
+                <div className="card no-hover text-center">
+                  <div className="image-over">
+                    <a href="/author">
+                      <img className="card-img-top" src={item.img} alt="" />
+                    </a>
+                    {/* Seller */}
+                    <a className="seller" href="/author">
+                      <div className="seller-thumb avatar-lg">
+                        <img
+                          className="rounded-circle"
+                          src={item.avatar}
+                          alt=""
+                        />
+                      </div>
+                    </a>
+                  </div>
+                  {/* Card Caption */}
+                  <div className="card-caption col-12 p-0">
                     {/* Card Body */}
                     <div className="card-body mt-4">
-                        <h5 className="mb-3">{this.state.data.author}</h5>
-                        <p className="my-3">{this.state.data.content}</p>
-                        <div className="input-group">
-                            <input type="text" className="form-control" placeholder={this.state.data.authorId} />
-                            <div className="input-group-append">
-                                <button><i className="icon-docs" /></button>
-                            </div>
-                        </div>
-                        {/* Social Icons */}
-                        <div className="social-icons d-flex justify-content-center my-3">
-                            {this.state.socialData.map((item, idx) => {
-                                return (
-                                    <a key={`asd_${idx}`} className={item.link} href="#">
-                                        <i className={item.icon} />
-                                        <i className={item.icon} />
-                                    </a>
-                                );
-                            })}
-                        </div>
-                        <a className="btn btn-bordered-white btn-smaller" href="#">{this.state.data.btnText}</a>
+                      <a href="/author">
+                        <h5>{item.author}</h5>
+                      </a>
+                      <a>hello</a>
                     </div>
+                  </div>
                 </div>
-            </div>
-        );
-    }
-}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default AuthorProfile;
