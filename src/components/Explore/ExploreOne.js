@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useMoralis, useMoralisWeb3Api, useNFTBalances } from "react-moralis";
 
 const initData = {
@@ -13,15 +13,12 @@ const sliceOver = (str, numOfLengthToShow) => {
 };
 
 const ExploreOne = () => {
-
-
-  const {isWeb3Enabled, enableWeb3, initialize, isInitialized} = useMoralis();
+  const { isWeb3Enabled } = useMoralis();
   const [initData, setInitData] = useState([]);
   const [NFTs, setNFTs] = useState([]);
 
   const Web3Api = useMoralisWeb3Api();
   const fetchNFTsForContract = async () => {
-    
     const options = {
       chain: "polygon",
       address: "0x75e3e9c92162e62000425c98769965a76c2e387a",
@@ -29,18 +26,17 @@ const ExploreOne = () => {
     };
 
     const events = await Web3Api.account.getNFTsForContract(options);
-    console.log(JSON.parse(events.result[0].metadata))
-    console.log(events);
     setNFTs(events.result);
+  };
 
-  
+  const setAccount = (e) => {
+    console.log(e);
   };
 
   useEffect(() => {
-  
-    if(!isWeb3Enabled)return;
-    fetchNFTsForContract()
-  }, [isWeb3Enabled])
+    if (!isWeb3Enabled) return;
+    fetchNFTsForContract();
+  }, [isWeb3Enabled]);
   const defaultImg =
     "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
 
@@ -63,9 +59,9 @@ const ExploreOne = () => {
             </div>
           </div>
         </div>
+
         <div className="row items">
           {NFTs?.map((item, idx) => {
-
             const meta = JSON.parse(item.metadata);
 
             return (
@@ -95,9 +91,7 @@ const ExploreOne = () => {
                           </h6>
                         </a>
                       </div>
-                      <div className="card-bottom d-flex justify-content-between">
-                       
-                      </div>
+                      <div className="card-bottom d-flex justify-content-between"></div>
                     </div>
                   </div>
                 </div>

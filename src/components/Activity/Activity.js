@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useMoralis, useMoralisWeb3Api,useNFTTransfers } from "react-moralis";
+import { useMoralis, useMoralisWeb3Api, useNFTTransfers } from "react-moralis";
 
 const BASE_URL =
   "https://my-json-server.typicode.com/themeland/netstorm-json-1/activity";
@@ -16,23 +16,11 @@ const sliceOver = (str, numOfLengthToShow) => {
 const initData = {
   preHeading: "Activies",
   heading: "NFT Transfers",
-  btnText: "View All"
-}
+  btnText: "View All",
+};
 
 const Activity = () => {
-  const {
-    Moralis,
-    authenticate,
-    isAuthenticated,
-    isAuthenticating,
-    user,
-    account,
-    initialize,
-    isInitialized,
-    logout,
-    isWeb3Enabled,
-    enableWeb3,
-  } = useMoralis();
+  const { isWeb3Enabled, enableWeb3 } = useMoralis();
 
   const [data, setData] = useState({
     data: {},
@@ -57,20 +45,18 @@ const Activity = () => {
 
     setData({
       ...data,
-      tabData_1: tradeNFT.result
-    })
-  }
+      tabData_1: tradeNFT.result,
+    });
+  };
 
   useEffect(() => {
-    if(!isWeb3Enabled) return;
-    fetchNFTTrades()
-  }, [isWeb3Enabled])
+    if (!isWeb3Enabled) return;
+    fetchNFTTrades();
+  }, [isWeb3Enabled]);
 
-  
   return (
     <section className="activity-area load-more">
       <div className="container">
-
         <div className="row">
           <div className="col-12">
             {/* Intro */}
@@ -124,23 +110,29 @@ const Activity = () => {
                         {/* Activity Content */}
                         <div className="activity-content ml-4">
                           <a href="/item-details">
-                            <h5 className="mt-0 mb-2">{sliceOver(item.token_address, 8)}</h5>
+                            <h5 className="mt-0 mb-2">
+                              {sliceOver(item.token_address, 8)}
+                            </h5>
                           </a>
                           <p className="m-0">
-
-                            From <a href="/author">{sliceOver(item.seller_address, 8)}</a>
+                            From{" "}
+                            <a href="/author">
+                              {sliceOver(item.seller_address, 8)}
+                            </a>
                           </p>
                           <p className="m-0">
-
-to <a href="/author">{sliceOver(item.buyer_address, 8)}</a>
-</p>
-<p className="m-0">
-
-Price <a href="/author">{gweiToEth(parseInt(item.price)).toFixed(3)} ETH</a>
-</p>
-
+                            to{" "}
+                            <a href="/author">
+                              {sliceOver(item.buyer_address, 8)}
+                            </a>
+                          </p>
+                          <p className="m-0">
+                            Price{" "}
+                            <a href="/author">
+                              {gweiToEth(parseInt(item.price)).toFixed(3)} ETH
+                            </a>
+                          </p>
                         </div>
-                       
                       </li>
                     );
                   })}
